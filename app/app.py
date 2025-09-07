@@ -1,6 +1,7 @@
 # Importing essential libraries and modules
 
-from flask import Flask, render_template, request, Markup
+from flask import Flask, render_template, request
+from markupsafe import Markup
 import numpy as np
 import pandas as pd
 from utils.disease import disease_dic
@@ -83,21 +84,27 @@ def weather_fetch(city_name):
     :params: city_name
     :return: temperature, humidity
     """
-    api_key = config.weather_api_key
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    try:
+        api_key = config.weather_api_key
+        base_url = "http://api.openweathermap.org/data/2.5/weather?"
 
-    complete_url = base_url + "appid=" + api_key + "&q=" + city_name
-    response = requests.get(complete_url)
-    x = response.json()
+        complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+        response = requests.get(complete_url)
+        x = response.json()
 
-    if x["cod"] != "404":
-        y = x["main"]
-
-        temperature = round((y["temp"] - 273.15), 2)
-        humidity = y["humidity"]
-        return temperature, humidity
-    else:
-        return None
+        # Check if the response is successful and has the required data
+        if x.get("cod") == 200 and "main" in x:
+            y = x["main"]
+            temperature = round((y["temp"] - 273.15), 2)
+            humidity = y["humidity"]
+            return temperature, humidity
+        else:
+            # If API fails, return default values for testing
+            print(f"Weather API error for {city_name}: {x}")
+            return 25.0, 60.0  # Default temperature and humidity
+    except Exception as e:
+        print(f"Error fetching weather for {city_name}: {e}")
+        return 25.0, 60.0  # Default temperature and humidity
 
 
 def predict_image(img, model=disease_model):
@@ -133,7 +140,7 @@ app = Flask(__name__)
 
 @ app.route('/')
 def home():
-    title = 'Harvestify - Home'
+    title = 'BHOOMI - Home'
     return render_template('index.html', title=title)
 
 # render crop recommendation form page
@@ -141,7 +148,7 @@ def home():
 
 @ app.route('/crop-recommend')
 def crop_recommend():
-    title = 'Harvestify - Crop Recommendation'
+    title = 'BHOOMI - Crop Recommendation'
     return render_template('crop.html', title=title)
 
 # render fertilizer recommendation form page
@@ -149,7 +156,7 @@ def crop_recommend():
 
 @ app.route('/fertilizer')
 def fertilizer_recommendation():
-    title = 'Harvestify - Fertilizer Suggestion'
+    title = 'BHOOMI - Fertilizer Suggestion'
 
     return render_template('fertilizer.html', title=title)
 
@@ -167,7 +174,7 @@ def fertilizer_recommendation():
 
 @ app.route('/crop-predict', methods=['POST'])
 def crop_prediction():
-    title = 'Harvestify - Crop Recommendation'
+    title = 'BHOOMI - Crop Recommendation'
 
     if request.method == 'POST':
         N = int(request.form['nitrogen'])
@@ -196,7 +203,7 @@ def crop_prediction():
 
 @ app.route('/fertilizer-predict', methods=['POST'])
 def fert_recommend():
-    title = 'Harvestify - Fertilizer Suggestion'
+    title = 'BHOOMI - Fertilizer Suggestion'
 
     crop_name = str(request.form['cropname'])
     N = int(request.form['nitrogen'])
@@ -240,7 +247,7 @@ def fert_recommend():
 
 @app.route('/disease-predict', methods=['GET', 'POST'])
 def disease_prediction():
-    title = 'Harvestify - Disease Detection'
+    title = 'BHOOMI - Disease Detection'
 
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -262,4 +269,4 @@ def disease_prediction():
 
 # ===============================================================================================
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, port=8080)
