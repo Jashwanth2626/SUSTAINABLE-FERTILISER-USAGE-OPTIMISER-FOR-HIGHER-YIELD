@@ -1,0 +1,10 @@
+flowchart LR
+  User[User Browser]
+  Proxy[HTTP/Reverse Proxy]
+  Gunicorn[Gunicorn WSGI]
+  Flask[Flask App]
+  Files[Models & Data Files]
+
+  User --> Proxy --> Gunicorn --> Flask
+  Flask --> Files
+

@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph Client
+    A[Browser UI]
+  end
+
+  subgraph Server[Flask App]
+    B1[Routes: /, /crop-recommend, /fertilizer, /disease]
+    B2[Controllers: crop-predict, fertilizer-predict, disease-predict]
+    B3[Services: weather_fetch, predict_image]
+    B4[Models: RandomForest.pkl, ResNet9.pth]
+    B5[Data: Data/fertilizer.csv]
+    B6[Templates & Static]
+  end
+
+  A <--> B1
+  B1 --> B2
+  B2 --> B3
+  B2 --> B4
+  B2 --> B5
+  B1 --> B6
+

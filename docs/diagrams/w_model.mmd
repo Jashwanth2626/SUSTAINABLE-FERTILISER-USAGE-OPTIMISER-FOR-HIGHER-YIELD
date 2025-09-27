@@ -1,0 +1,33 @@
+%% W-Model Methodology Diagram (Validation and Verification in parallel)
+%% Render with Mermaid
+
+flowchart TB
+  %% Left V: Verification (Development)
+  subgraph Verification[Verification]
+    R[Requirements]
+    HLA[High-Level Design]
+    LLA[Low-Level Design]
+    IMP[Implementation]
+  end
+
+  %% Right V: Validation (Testing)
+  subgraph Validation[Validation]
+    UAT[User Acceptance Testing]
+    SIT[System / Integration Testing]
+    UT[Unit Testing]
+    IMP2[Implementation: Reference]
+  end
+
+  %% Downward path (verification)
+  R --> HLA --> LLA --> IMP
+
+  %% Upward path (validation)
+  IMP2 --> UT --> SIT --> UAT
+
+  %% Cross-links (W-model parallel alignment)
+  R --- UAT
+  HLA --- SIT
+  LLA --- UT
+  IMP --- IMP2
+
+

@@ -1,0 +1,17 @@
+%% SDLC Phases for Hariyali Project
+%% Render with Mermaid
+
+flowchart LR
+  R[Requirements & Feasibility]
+  D[System & Data Design]
+  I[Implementation\nFlask App, Models, UI]
+  T[Testing\nUnit, Integration, UAT]
+  DEP[Deployment\nGunicorn/WSGI]
+  M[Maintenance & Monitoring]
+
+  R --> D --> I --> T --> DEP --> M
+
+  %% Feedback loops
+  M -- Bug Reports / Metrics --> R
+
+

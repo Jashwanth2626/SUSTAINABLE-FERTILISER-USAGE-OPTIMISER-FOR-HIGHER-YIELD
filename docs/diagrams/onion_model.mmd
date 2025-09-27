@@ -1,0 +1,30 @@
+%% Onion Architecture for Hariyali
+%% Render with Mermaid
+
+flowchart TB
+  %% Layers from core (domain) to outer (infrastructure)
+  subgraph Domain[Domain Core]
+    ENT[Entities & Value Objects]
+    SVC[Domain Services]
+  end
+
+  subgraph Application[Application Layer]
+    USE[Use Cases / Orchestrators]
+    PORTS[Ports / Interfaces]
+  end
+
+  subgraph Infrastructure[Infrastructure]
+    ADP[Adapters: Repositories, API Clients]
+    DS[Data Sources: CSV, Models]
+    WEB[Web Framework: Flask Routes, Templates]
+  end
+
+  %% Allowed dependencies (inward only)
+  Infrastructure --> Application --> Domain
+
+  %% Examples of mappings in this project
+  DS ---|reads| ENT
+  ADP ---|implements| PORTS
+  WEB ---|invokes| USE
+
+

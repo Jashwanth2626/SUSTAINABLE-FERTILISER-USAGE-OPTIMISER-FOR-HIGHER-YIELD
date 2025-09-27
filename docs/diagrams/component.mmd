@@ -1,0 +1,27 @@
+flowchart TB
+  subgraph Web
+    UI[Templates + Static Assets]
+    Routes[Flask Routes]
+  end
+
+  subgraph Services
+    Weather[weather_fetch]
+    Predictor[predict_image]
+  end
+
+  subgraph Models
+    RF[RandomForest.pkl]
+    CNN[plant_disease_model.pth - ResNet9]
+  end
+
+  subgraph Data
+    FertCSV[Data/fertilizer.csv]
+  end
+
+  UI --> Routes
+  Routes --> Weather
+  Routes --> Predictor
+  Routes --> RF
+  Routes --> FertCSV
+  Predictor --> CNN
+

@@ -10,44 +10,44 @@
 <div>
   <form method="POST" action="{{ url_for('fert_recommend') }}" class="formf">
     <h1 style="text-align: center;color: black">
-      <b>Fertilizer based on soil</b>
+      <b>{{ _('Fertilizer based on soil') }}</b>
     </h1>
     <div class="fdata">
       <div class="form-group">
-        <label for="Nitrogen" style="font-size: 17px"><b>Nitrogen</b></label>
+        <label for="Nitrogen" style="font-size: 17px"><b>{{ _('Nitrogen') }}</b></label>
         <input
           type="number"
           class="form-control"
           id="Nitrogen"
           name="nitrogen"
-          placeholder="Enter the value (example:50)"
+          placeholder="{{ _('Enter the value (example:50)') }}"
           style="font-weight: bold"
           required
         />
       </div>
       <div class="form-group">
         <label for="Phosphorous" style="font-size: 17px"
-          ><b>Phosphorous</b></label
+          ><b>{{ _('Phosphorous') }}</b></label
         >
         <input
           type="number"
           class="form-control"
           id="Phosphorous"
           name="phosphorous"
-          placeholder="Enter the value (example:50)"
+          placeholder="{{ _('Enter the value (example:50)') }}"
           style="font-weight: bold"
           required
         />
       </div>
   
       <div class="form-group">
-        <label for="Pottasium" style="font-size: 17px"><b>Pottasium</b></label>
+        <label for="Pottasium" style="font-size: 17px"><b>{{ _('Pottasium') }}</b></label>
         <input
           type="number"
           class="form-control"
           id="Pottasium"
           name="pottasium"
-          placeholder="Enter the value (example:50)"
+          placeholder="{{ _('Enter the value (example:50)') }}"
           style="font-weight: bold"
           required
         />
@@ -66,17 +66,17 @@
       </div> -->
       <div class="form-group">
         <label for="crop" style="font-size: 17px"
-          ><b>Crop you want to grow</b></label
+          ><b>{{ _('Crop you want to grow') }}</b></label
         >
         <select
           name="cropname"
           class="form-control"
           id="crop"
-          placeholder="Select a crop"
+          placeholder="{{ _('Select a crop') }}"
           style="font-weight: bold"
           required
         >
-          <option selected>Select crop</option>
+          <option selected>{{ _('Select crop') }}</option>
           <option>rice</option>
           <option>maize</option>
           <option>chickpea</option>
@@ -108,7 +108,7 @@
           class="btn btn-info"
           style="color: white; background-color: rgb(40, 160, 62);font-weight: bold; width: 60%; height:40px; border-radius:20px; font-size: 18px;margin-top: 22px;"
         >
-          Predict
+          {{ _('Predict') }}
         </button>
       </div>
     </div>

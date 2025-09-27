@@ -1,0 +1,148 @@
+%% Hariyali System Architecture - Complete Project Overview
+%% Render with Mermaid
+
+flowchart TB
+
+  %% User Layer
+  subgraph UserLayer[User Layer]
+    U1[Farmer / User]
+    U2[Web Browser]
+    U3[Mobile Device]
+  end
+
+  %% Presentation Layer
+  subgraph PresentationLayer[Presentation Layer]
+    P1[Flask Routes]
+    P2[HTML Templates]
+    P3[Static Assets]
+    P4[Bootstrap CSS]
+    P5[JavaScript]
+  end
+
+  %% Application Layer
+  subgraph ApplicationLayer[Application Layer]
+    A1[Crop Controller]
+    A2[Fertilizer Controller]
+    A3[Disease Controller]
+    A4[Weather Service]
+    A5[Image Processing Service]
+  end
+
+  %% Business Logic Layer
+  subgraph BusinessLayer[Business Logic Layer]
+    B1[Crop Recommendation Logic]
+    B2[Fertilizer Calculation Logic]
+    B3[Disease Classification Logic]
+    B4[Nutrient Gap Analysis]
+  end
+
+  %% Data Access Layer
+  subgraph DataLayer[Data Access Layer]
+    D1[CSV Data Loader]
+    D2[Model Loader]
+    D3[File Upload Handler]
+    D4[Configuration Manager]
+  end
+
+  %% ML Models Layer
+  subgraph MLModels[ML Models Layer]
+    M1[RandomForest Model]
+    M2[ResNet9 Model]
+    M3[Model Inference Engine]
+  end
+
+  %% Data Storage Layer
+  subgraph DataStorage[Data Storage Layer]
+    DS1[Crop Dataset CSV]
+    DS2[Fertilizer Dataset CSV]
+    DS3[Model Files PKL/PTH]
+    DS4[Uploaded Images]
+  end
+
+  %% External Services
+  subgraph ExternalServices[External Services]
+    E1[OpenWeatherMap API]
+    E2[Weather Data Cache]
+  end
+
+  %% Deployment Infrastructure
+  subgraph Infrastructure[Deployment Infrastructure]
+    I1[Gunicorn WSGI Server]
+    I2[Static File Server]
+    I3[Environment Variables]
+    I4[Logging System]
+  end
+
+  %% User interactions
+  U1 --> U2
+  U1 --> U3
+  U2 --> P1
+  U3 --> P1
+
+  %% Presentation to Application
+  P1 --> A1
+  P1 --> A2
+  P1 --> A3
+  P2 --> P1
+  P3 --> P1
+  P4 --> P2
+  P5 --> P2
+
+  %% Application to Business Logic
+  A1 --> B1
+  A2 --> B2
+  A3 --> B3
+  A4 --> B1
+  A5 --> B3
+
+  %% Business Logic to Data Access
+  B1 --> D1
+  B2 --> D1
+  B3 --> D2
+  B4 --> D1
+
+  %% Data Access to Storage
+  D1 --> DS1
+  D1 --> DS2
+  D2 --> DS3
+  D3 --> DS4
+
+  %% Business Logic to ML Models
+  B1 --> M1
+  B3 --> M2
+  M1 --> M3
+  M2 --> M3
+
+  %% External API connections
+  A4 --> E1
+  E1 --> E2
+  E2 --> A4
+
+  %% Infrastructure connections
+  I1 --> P1
+  I2 --> P3
+  I3 --> D4
+  I4 --> A1
+  I4 --> A2
+  I4 --> A3
+
+  %% Styling
+  classDef userClass fill:#e1f5fe
+  classDef presentationClass fill:#f3e5f5
+  classDef applicationClass fill:#e8f5e8
+  classDef businessClass fill:#fff3e0
+  classDef dataClass fill:#fce4ec
+  classDef mlClass fill:#e0f2f1
+  classDef storageClass fill:#f1f8e9
+  classDef externalClass fill:#fff8e1
+  classDef infraClass fill:#f5f5f5
+
+  class U1,U2,U3 userClass
+  class P1,P2,P3,P4,P5 presentationClass
+  class A1,A2,A3,A4,A5 applicationClass
+  class B1,B2,B3,B4 businessClass
+  class D1,D2,D3,D4 dataClass
+  class M1,M2,M3 mlClass
+  class DS1,DS2,DS3,DS4 storageClass
+  class E1,E2 externalClass
+  class I1,I2,I3,I4 infraClass

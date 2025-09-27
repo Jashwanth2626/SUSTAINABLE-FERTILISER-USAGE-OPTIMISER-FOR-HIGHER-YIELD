@@ -1,0 +1,13 @@
+sequenceDiagram
+  participant U as User (Browser)
+  participant F as Flask Controller (/crop-predict)
+  participant W as weather_fetch()
+  participant M as RandomForest.pkl
+
+  U->>F: POST N,P,K,pH,rainfall,city
+  F->>W: Get temperature, humidity (OpenWeatherMap)
+  W-->>F: temperature, humidity (fallback defaults on error)
+  F->>M: Predict [N,P,K,temp,humidity,pH,rainfall]
+  M-->>F: crop_name
+  F-->>U: crop-result.html
+

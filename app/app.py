@@ -14,6 +14,8 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from utils.model import ResNet9
+from flask import session, redirect, url_for
+from flask_babel import Babel, _
 # ==============================================================================================
 
 # -------------------------LOADING THE TRAINED MODELS -----------------------------------------------
@@ -92,19 +94,19 @@ def weather_fetch(city_name):
         response = requests.get(complete_url)
         x = response.json()
 
-        # Check if the response is successful and has the required data
+       
         if x.get("cod") == 200 and "main" in x:
             y = x["main"]
             temperature = round((y["temp"] - 273.15), 2)
             humidity = y["humidity"]
             return temperature, humidity
         else:
-            # If API fails, return default values for testing
+            
             print(f"Weather API error for {city_name}: {x}")
-            return 25.0, 60.0  # Default temperature and humidity
+            return 25.0, 60.0 
     except Exception as e:
         print(f"Error fetching weather for {city_name}: {e}")
-        return 25.0, 60.0  # Default temperature and humidity
+        return 25.0, 60.0  
 
 
 def predict_image(img, model=disease_model):
@@ -121,12 +123,9 @@ def predict_image(img, model=disease_model):
     img_t = transform(image)
     img_u = torch.unsqueeze(img_t, 0)
 
-    # Get predictions from model
     yb = model(img_u)
-    # Pick index with highest probability
     _, preds = torch.max(yb, dim=1)
     prediction = disease_classes[preds[0].item()]
-    # Retrieve the class label
     return prediction
 
 # ===============================================================================================
@@ -134,8 +133,29 @@ def predict_image(img, model=disease_model):
 
 
 app = Flask(__name__)
+app.secret_key = 'dev-secret-change-me'
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'kn']
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = '/Users/macbookpro/Desktop/capstone project /Hariyali/translations'
 
-# render home page
+# Locale selector for Flask-Babel v4
+
+def get_locale():
+	# Prefer URL query, then session, then Accept-Language
+	lang = request.args.get('lang')
+	if lang and lang in app.config['BABEL_SUPPORTED_LOCALES']:
+		session['lang'] = lang
+		return lang
+	return session.get('lang', request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES']))
+
+# Initialize Babel with selector
+babel = Babel(app, locale_selector=get_locale)
+
+@app.route('/set-language/<lang>')
+def set_language(lang):
+	if lang in app.config['BABEL_SUPPORTED_LOCALES']:
+		session['lang'] = lang
+	return redirect(request.referrer or url_for('home'))
 
 
 @ app.route('/')
@@ -160,7 +180,7 @@ def fertilizer_recommendation():
 
     return render_template('fertilizer.html', title=title)
 
-# render disease prediction input page
+
 
 
 

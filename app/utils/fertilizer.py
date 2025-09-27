@@ -1,5 +1,7 @@
+from flask_babel import _
+
 fertilizer_dic = {
-        'NHigh': """The N value of soil is high and might give rise to weeds.
+        'NHigh': _("""The N value of soil is high and might give rise to weeds.
         <br/> Please consider the following suggestions:
 
         <br/><br/> 1. <i> Manure </i> – adding manure is one of the simplest ways to amend your soil with nitrogen. Be careful as there are various types of manures with varying degrees of nitrogen.
@@ -10,9 +12,9 @@ fertilizer_dic = {
 
         <br/>4. Plant ‘green manure’ crops like cabbage, corn and brocolli
 
-        <br/>5. <i>Use mulch (wet grass) while growing crops</i> - Mulch can also include sawdust and scrap soft woods""",
+        <br/>5. <i>Use mulch (wet grass) while growing crops</i> - Mulch can also include sawdust and scrap soft woods"""),
 
-        'Nlow': """The N value of your soil is low.
+        'Nlow': _("""The N value of your soil is low.
         <br/> Please consider the following suggestions:
         <br/><br/> 1. <i>Add sawdust or fine woodchips to your soil</i> – the carbon in the sawdust/woodchips love nitrogen and will help absorb and soak up and excess nitrogen.
 
@@ -28,22 +30,22 @@ fertilizer_dic = {
 
         <br/>7. <i>Use NPK fertilizers with high N value.
 
-        <br/>8. <i>Do nothing</i> – It may seem counter-intuitive, but if you already have plants that are producing lots of foliage, it may be best to let them continue to absorb all the nitrogen to amend the soil for your next crops.""",
+        <br/>8. <i>Do nothing</i> – It may seem counter-intuitive, but if you already have plants that are producing lots of foliage, it may be best to let them continue to absorb all the nitrogen to amend the soil for your next crops."""),
 
-        'PHigh': """The P value of your soil is high.
-        <br/> Please consider the following suggestions:
+        'PHigh': (
+            _("The P value of your soil is high.") +
+            "<br/> " + _("Please consider the following suggestions:") +
+            "<br/><br/>1. " + _("Avoid adding manure") +
+            " – " + _("manure contains many key nutrients for your soil but typically including high levels of phosphorous. Limiting the addition of manure will help reduce phosphorus being added.") +
+            "<br/><br/>2. " + _("Use only phosphorus-free fertilizer") +
+            " – " + _("if you can limit the amount of phosphorous added to your soil, you can let the plants use the existing phosphorus while still providing other key nutrients such as Nitrogen and Potassium. Find a fertilizer with numbers such as 10-0-10, where the zero represents no phosphorous.") +
+            "<br/><br/>3. " + _("Water your soil") +
+            " – " + _("soaking your soil liberally will aid in driving phosphorous out of the soil. This is recommended as a last ditch effort.") +
+            "<br/><br/>4. " + _("Plant nitrogen fixing vegetables to increase nitrogen without increasing phosphorous (like beans and peas).") +
+            "<br/><br/>5. " + _("Use crop rotations to decrease high phosphorous levels")
+        ),
 
-        <br/><br/>1. <i>Avoid adding manure</i> – manure contains many key nutrients for your soil but typically including high levels of phosphorous. Limiting the addition of manure will help reduce phosphorus being added.
-
-        <br/>2. <i>Use only phosphorus-free fertilizer</i> – if you can limit the amount of phosphorous added to your soil, you can let the plants use the existing phosphorus while still providing other key nutrients such as Nitrogen and Potassium. Find a fertilizer with numbers such as 10-0-10, where the zero represents no phosphorous.
-
-        <br/>3. <i>Water your soil</i> – soaking your soil liberally will aid in driving phosphorous out of the soil. This is recommended as a last ditch effort.
-
-        <br/>4. Plant nitrogen fixing vegetables to increase nitrogen without increasing phosphorous (like beans and peas).
-
-        <br/>5. Use crop rotations to decrease high phosphorous levels""",
-
-        'Plow': """The P value of your soil is low.
+        'Plow': _("""The P value of your soil is low.
         <br/> Please consider the following suggestions:
 
         <br/><br/>1. <i>Bone meal</i> – a fast acting source that is made from ground animal bones which is rich in phosphorous.
@@ -62,9 +64,9 @@ fertilizer_dic = {
 
         <br/>8. If soil pH is low, add lime or potassium carbonate to the soil as fertilizers. Pure calcium carbonate is very effective in increasing the pH value of the soil.
 
-        <br/>9. If pH is high, addition of appreciable amount of organic matter will help acidify the soil. Application of acidifying fertilizers, such as ammonium sulfate, can help lower soil pH""",
+        <br/>9. If pH is high, addition of appreciable amount of organic matter will help acidify the soil. Application of acidifying fertilizers, such as ammonium sulfate, can help lower soil pH"""),
 
-        'KHigh': """The K value of your soil is high</b>.
+        'KHigh': _("""The K value of your soil is high</b>.
         <br/> Please consider the following suggestions:
 
         <br/><br/>1. <i>Loosen the soil</i> deeply with a shovel, and water thoroughly to dissolve water-soluble potassium. Allow the soil to fully dry, and repeat digging and watering the soil two or three more times.
@@ -78,9 +80,9 @@ fertilizer_dic = {
         <br/>5. Use NPK fertilizers with low K levels and organic fertilizers since they have low NPK values.
 
         <br/>6. Grow a cover crop of legumes that will fix nitrogen in the soil. This practice will meet the soil’s needs for nitrogen without increasing phosphorus or potassium.
-        """,
+        """),
 
-        'Klow': """The K value of your soil is low.
+        'Klow': _("""The K value of your soil is low.
         <br/>Please consider the following suggestions:
 
         <br/><br/>1. Mix in muricate of potash or sulphate of potash
@@ -88,5 +90,5 @@ fertilizer_dic = {
         <br/>3. Try Sul-Po-Mag
         <br/>4. Bury banana peels an inch below the soils surface
         <br/>5. Use Potash fertilizers since they contain high values potassium
-        """
+        """)
     }

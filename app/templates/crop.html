@@ -15,32 +15,32 @@
 <div>
   <form method="POST" action="{{ url_for('crop_prediction') }}" class="formm">
     <h1>
-      <b>Find Ideal Crop</b>
+      <b>{{ _('Find Ideal Crop') }}</b>
     </h1>
     <div class="fdata">
       <div class="roww">
         <div class="form-group">
-          <label for="Nitrogen" style="font-size: 16px"><b>Nitrogen</b></label>
+          <label for="Nitrogen" style="font-size: 16px"><b>{{ _('Nitrogen') }}</b></label>
           <input
             type="number"
             class="form-control"
             id="Nitrogen"
             name="nitrogen"
-            placeholder="Enter the value (example:50)"
+            placeholder="{{ _('Enter the value (example:50)') }}"
             style="font-weight: bold"
             required
           />
         </div>
         <div class="form-group">
           <label for="Phosphorus" style="font-size: 16px"
-            ><b>Phosphorus</b></label
+            ><b>{{ _('Phosphorus') }}</b></label
           >
           <input
             type="number"
             class="form-control"
             id="Phosphorous"
             name="phosphorous"
-            placeholder="Enter the value (example:50)"
+            placeholder="{{ _('Enter the value (example:50)') }}"
             style="font-weight: bold"
             required
           />
@@ -48,40 +48,40 @@
       </div>
       <div class="roww">
         <div class="form-group">
-          <label for="Potassium" style="font-size: 16px"><b>Potassium</b></label>
+          <label for="Potassium" style="font-size: 16px"><b>{{ _('Potassium') }}</b></label>
           <input
             type="number"
             class="form-control"
             id="Pottasium"
             name="pottasium"
-            placeholder="Enter the value (example:50)"
+            placeholder="{{ _('Enter the value (example:50)') }}"
             style="font-weight: bold"
             required
           />
         </div>
         <div class="form-group">
-          <label for="ph" style="font-size: 16px"><b>pH level</b></label>
+          <label for="ph" style="font-size: 16px"><b>{{ _('pH level') }}</b></label>
           <input
             type="number"
             step="0.01"
             class="form-control"
             id="ph"
             name="ph"
-            placeholder="Enter the value"
+            placeholder="{{ _('Enter the value') }}"
             style="font-weight: bold"
             required
           />
         </div>
       </div>
         <div class="form-group">
-          <label for="Rainfall" style="font-size: 16px"><b>Rainfall (in mm)</b></label>
+          <label for="Rainfall" style="font-size: 16px"><b>{{ _('Rainfall (in mm)') }}</b></label>
           <input
             type="number"
             step="0.01"
             class="form-control"
             id="Rainfall"
             name="rainfall"
-            placeholder="Enter the value"
+            placeholder="{{ _('Enter the value') }}"
             style="font-weight: bold"
             required
           />
@@ -89,7 +89,7 @@
         </div>
         <div class="roww" style="margin-top: 20px;">
         <div class="form-group">
-          <label for="State" style="font-size: 16px "><b>State</b></label>
+          <label for="State" style="font-size: 16px "><b>{{ _('State') }}</b></label>
           <select
             onchange="print_city('state', this.selectedIndex);"
             id="sts"
@@ -101,14 +101,14 @@
           ></select>
           </div>
           <div class="form-group">
-          <label for="City" style="font-size: 16px"><b>City</b></label>
+          <label for="City" style="font-size: 16px"><b>{{ _('City') }}</b></label>
           <select
             id="state"
             class="form-control"
             name="city"
             style="font-weight: bold; color: black;"
             required
-          ><option value="value" selected>Select City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option></select>
+          ><option value="value" selected>{{ _('Select City') }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option></select>
           <script language="javascript">
             print_state("sts");
           </script>
@@ -121,7 +121,7 @@
             class="btn btn-info"
             style="color: white; background-color: rgb(40, 160, 62);font-weight: bold; width: 60%; height:40px; border-radius:20px; font-size: 18px;margin-top: 22px;"
           >
-            Predict
+            {{ _('Predict') }}
           </button>
         </div>
     </div>

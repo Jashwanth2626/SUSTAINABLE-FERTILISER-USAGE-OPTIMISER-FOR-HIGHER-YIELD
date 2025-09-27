@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant U as User (Browser)
+  participant F as Flask Controller (/fertilizer-predict)
+  participant D as Data/fertilizer.csv
+  participant L as fertilizer_dic
+
+  U->>F: POST crop, N, P, K
+  F->>D: Lookup recommended N,P, K
+  D-->>F: N_req, P_req, K_req
+  F->>F: Compute deltas, choose max deviation key
+  F->>L: Map key to advisory
+  L-->>F: Recommendation
+  F-->>U: fertilizer-result.html
+

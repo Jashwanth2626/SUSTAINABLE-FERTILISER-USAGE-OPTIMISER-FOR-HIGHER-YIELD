@@ -1,0 +1,34 @@
+%% Hariyali Project Methodology - Agile Scrum with DevOps CI/CD
+%% Render with Mermaid
+
+flowchart LR
+  %% Agile Scrum Loop
+  subgraph Agile_Scrum[Agile Scrum]
+    P[Product Backlog]
+    S((Sprint Planning))
+    SB[ Sprint Backlog ]
+    D[Design & Data Preparation]
+    DEV[Development\nFlask UI, APIs, ML Models]
+    T[Testing\nUnit, Integration, UX]
+    R[Review & Demo]
+    RET[Retrospective]
+  end
+
+  %% DevOps CI/CD Pipeline
+  subgraph DevOps[DevOps CI/CD]
+    CI[Continuous Integration\nLint, Tests]
+    ART[Build Artifacts\nModels, Assets]
+    CD[Continuous Delivery\nDeploy: Gunicorn/WSGI]
+    MON[Monitoring & Feedback\nLogs, Errors, Metrics]
+  end
+
+  %% Scrum flow
+  P --> S --> SB --> D --> DEV --> T --> R --> RET --> P
+
+  %% Feedback loop into backlog
+  MON --> P
+
+  %% DevOps pipeline hooked to development
+  DEV --> CI --> ART --> CD --> MON
+
+

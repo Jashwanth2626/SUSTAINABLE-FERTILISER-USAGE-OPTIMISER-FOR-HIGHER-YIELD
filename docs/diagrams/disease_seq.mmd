@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant U as User (Browser)
+  participant F as Flask Controller (/disease-predict)
+  participant P as predict_image()
+  participant C as ResNet9 (PyTorch)
+  participant DD as disease_dic
+
+  U->>F: POST image file
+  F->>P: Preprocess (Resize, ToTensor)
+  P->>C: Forward pass
+  C-->>P: class index
+  P-->>F: class label
+  F->>DD: Map to description
+  DD-->>F: Advisory content
+  F-->>U: disease-result.html
+

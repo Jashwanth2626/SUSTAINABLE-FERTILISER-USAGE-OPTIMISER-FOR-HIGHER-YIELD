@@ -1,0 +1,25 @@
+erDiagram
+  CROP_RECOMMENDATION {
+    float N
+    float P
+    float K
+    float temperature
+    float humidity
+    float pH
+    float rainfall
+  }
+
+  FERTILIZER_REFERENCE {
+    string Crop
+    int N
+    int P
+    int K
+  }
+
+  DISEASE_MODEL_INPUT {
+    image leaf_image
+  }
+
+  CROP_RECOMMENDATION ||--|| FERTILIZER_REFERENCE : reference
+  DISEASE_MODEL_INPUT ||--|| CROP_RECOMMENDATION : independent
+

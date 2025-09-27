@@ -1,0 +1,128 @@
+%% Summary of Common Project Methodologies for Hariyali
+%% Render with Mermaid
+
+flowchart TB
+
+  %% Row 1
+  subgraph Waterfall[Waterfall]
+    W1[Analyse]
+    W2[Design]
+    W3[Develop]
+    W4[Test]
+    W5[Deploy]
+    W6[Operate]
+    W1 --> W2 --> W3 --> W4 --> W5 --> W6
+  end
+
+  subgraph Agile[Agile]
+    A1[Define vision]
+    A2[Start broad]
+    A3[Learn and adapt]
+    A4[Evolve to target]
+    A1 --> A2 --> A3 --> A4
+  end
+
+  subgraph Scrum[Scrum]
+    S1[Product Backlog]
+    S2[Sprint Planning]
+    S3[Sprint Backlog]
+    S4[Development]
+    S5[Review]
+    S6[Retrospective]
+    S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S1
+  end
+
+  subgraph Kanban[Kanban]
+    K1[Queue]
+    K2[Selected]
+    K3[In Progress]
+    K4[Done]
+    K1 --> K2 --> K3 --> K4
+  end
+
+  %% Row 2
+  subgraph XP[Extreme Programming]
+    X1[Stories]
+    X2[Iteration]
+    X3[TDD / Pairing]
+    X4[Small Releases]
+    X1 --> X2 --> X3 --> X4
+  end
+
+  subgraph Lean[Lean]
+    L1[Identify value]
+    L2[Map value stream]
+    L3[Flow]
+    L4[Pull]
+    L5[Perfection]
+    L1 --> L2 --> L3 --> L4 --> L5
+  end
+
+  subgraph VModel[V Model]
+    Vd1[Requirements]
+    Vd2[High level design]
+    Vd3[Low level design]
+    Vi[Implementation]
+    Vt1[Unit tests]
+    Vt2[System tests]
+    Vt3[Acceptance tests]
+    Vd1 --> Vd2 --> Vd3 --> Vi --> Vt1 --> Vt2 --> Vt3
+  end
+
+  subgraph WModel[W Model]
+    Wd1[Requirements]
+    Wd2[High level design]
+    Wd3[Low level design]
+    Wi[Implementation]
+    Wt1[Unit tests]
+    Wt2[System tests]
+    Wt3[Acceptance tests]
+    Wd1 --> Wd2 --> Wd3 --> Wi --> Wt1 --> Wt2 --> Wt3
+  end
+
+  %% Row 3
+  subgraph Spiral[Spiral]
+    SP1[Plan]
+    SP2[Identify risks]
+    SP3[Prototype]
+    SP4[Evaluate]
+    SP1 --> SP2 --> SP3 --> SP4 --> SP1
+  end
+
+  subgraph DevOps[DevOps]
+    D1[Plan]
+    D2[Code]
+    D3[Test]
+    D4[Build]
+    D5[Release]
+    D6[Deploy]
+    D7[Operate]
+    D8[Monitor]
+    D1 --> D2 --> D3 --> D4 --> D5 --> D6 --> D7 --> D8 --> D1
+  end
+
+  subgraph SDLC[SDLC]
+    SD1[Requirements]
+    SD2[Design]
+    SD3[Implementation]
+    SD4[Testing]
+    SD5[Deployment]
+    SD6[Maintenance]
+    SD1 --> SD2 --> SD3 --> SD4 --> SD5 --> SD6
+  end
+
+  subgraph Onion[Onion Architecture]
+    O1[Domain]
+    O2[Application]
+    O3[Infrastructure]
+    O4[Presentation]
+    O4 --> O3 --> O2 --> O1
+  end
+
+  %% Light connectors to keep layout grid-ish
+  Waterfall --- Agile --- Scrum --- Kanban
+  XP --- Lean --- VModel --- WModel
+  Spiral --- DevOps --- SDLC --- Onion
+
+
+
