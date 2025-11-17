@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: hariyali-app
+    runtime: docker
+    repo: https://example.com/your-repo.git
+    plan: starter
+    envVars:
+      - key: FLASK_SECRET_KEY
+        sync: false
+      - key: WEATHER_API_KEY
+        sync: false
+    autoDeploy: true
+

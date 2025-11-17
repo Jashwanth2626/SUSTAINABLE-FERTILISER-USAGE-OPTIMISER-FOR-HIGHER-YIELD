@@ -1,0 +1,114 @@
+%% IoT Deployment Level Suitable for BHOOMI
+%% Deployment Architecture
+
+flowchart TB
+    subgraph EdgeDevices[Edge Devices - Level 1]
+        Smartphone[Smartphone<br/>Image Capture]
+        Tablet[Tablet<br/>Data Entry]
+        Laptop[Laptop<br/>Web Access]
+        SoilSensor[Soil Sensors<br/>N-P-K Measurement]
+        Camera[Camera<br/>Plant Image Capture]
+    end
+    
+    subgraph EdgeGateway[Edge Gateway - Level 2]
+        Router[Router/Gateway<br/>Local Network]
+        EdgeProcessor[Edge Processor<br/>Local Preprocessing]
+        LocalCache[Local Cache<br/>Frequently Used Data]
+    end
+    
+    subgraph CloudServices[Cloud Services - Level 3]
+        WebServer[Web Server<br/>Flask Application]
+        APIGateway[API Gateway<br/>Request Routing]
+        LoadBalancer[Load Balancer<br/>Traffic Distribution]
+    end
+    
+    subgraph ProcessingLayer[Processing Layer - Level 4]
+        MLInference[ML Inference Engine<br/>Model Execution]
+        DataProcessor[Data Processor<br/>CSV Processing]
+        ImageProcessor[Image Processor<br/>Preprocessing]
+        WeatherService[Weather Service<br/>API Integration]
+    end
+    
+    subgraph DataLayer[Data Layer - Level 5]
+        Database[(Database<br/>User Data)]
+        FileStorage[File Storage<br/>Models & CSV]
+        ObjectStorage[Object Storage<br/>Uploaded Images]
+        CacheLayer[Cache Layer<br/>Redis/Memcached]
+    end
+    
+    subgraph ExternalAPIs[External APIs - Level 6]
+        WeatherAPI[OpenWeatherMap API]
+        MLService[MLaaS<br/>Optional Cloud ML]
+    end
+    
+    %% Edge to Gateway
+    Smartphone -->|HTTP/HTTPS| Router
+    Tablet -->|HTTP/HTTPS| Router
+    Laptop -->|HTTP/HTTPS| Router
+    SoilSensor -->|IoT Protocol| Router
+    Camera -->|Image Upload| Router
+    
+    %% Gateway Processing
+    Router --> EdgeProcessor
+    EdgeProcessor --> LocalCache
+    LocalCache -->|Cache Hit| Router
+    EdgeProcessor -->|Processed Data| Router
+    
+    %% Gateway to Cloud
+    Router -->|Internet| APIGateway
+    APIGateway --> LoadBalancer
+    LoadBalancer --> WebServer
+    
+    %% Cloud to Processing
+    WebServer --> MLInference
+    WebServer --> DataProcessor
+    WebServer --> ImageProcessor
+    WebServer --> WeatherService
+    
+    %% Processing to Data
+    MLInference --> FileStorage
+    DataProcessor --> FileStorage
+    ImageProcessor --> ObjectStorage
+    WeatherService --> CacheLayer
+    
+    %% Data Layer Internal
+    FileStorage --> CacheLayer
+    Database --> CacheLayer
+    
+    %% External API Connections
+    WeatherService -->|API Call| WeatherAPI
+    MLInference -.->|Optional| MLService
+    
+    %% Response Flow
+    CacheLayer -->|Cached Data| WeatherService
+    FileStorage -->|Model/Data| MLInference
+    FileStorage -->|CSV Data| DataProcessor
+    ObjectStorage -->|Image| ImageProcessor
+    
+    MLInference -->|Prediction| WebServer
+    DataProcessor -->|Processed Data| WebServer
+    ImageProcessor -->|Processed Image| WebServer
+    WeatherService -->|Weather Data| WebServer
+    
+    WebServer -->|Response| LoadBalancer
+    LoadBalancer -->|Response| APIGateway
+    APIGateway -->|Response| Router
+    Router -->|Response| Smartphone
+    Router -->|Response| Tablet
+    Router -->|Response| Laptop
+    
+    %% Styling
+    classDef edge fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef gateway fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef cloud fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef processing fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef data fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef external fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    
+    class Smartphone,Tablet,Laptop,SoilSensor,Camera edge
+    class Router,EdgeProcessor,LocalCache gateway
+    class WebServer,APIGateway,LoadBalancer cloud
+    class MLInference,DataProcessor,ImageProcessor,WeatherService processing
+    class Database,FileStorage,ObjectStorage,CacheLayer data
+    class WeatherAPI,MLService external
+

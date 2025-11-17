@@ -1,0 +1,131 @@
+%% Operational View
+%% BHOOMI System - Operational Architecture
+
+flowchart TB
+    subgraph MonitoringLayer[Monitoring & Observability]
+        M1[Application Monitoring<br/>Performance Metrics]
+        M2[Error Tracking<br/>Exception Logging]
+        M3[User Analytics<br/>Usage Statistics]
+        M4[System Health Checks<br/>Uptime Monitoring]
+    end
+    
+    subgraph DeploymentInfrastructure[Deployment Infrastructure]
+        DI1[Production Server<br/>Gunicorn WSGI]
+        DI2[Static File Server<br/>Nginx/CDN]
+        DI3[Load Balancer<br/>Traffic Distribution]
+        DI4[Reverse Proxy<br/>SSL Termination]
+    end
+    
+    subgraph ApplicationRuntime[Application Runtime]
+        AR1[Flask Application<br/>Main Process]
+        AR2[Worker Processes<br/>Request Handlers]
+        AR3[Background Tasks<br/>Async Processing]
+        AR4[Session Management<br/>State Handling]
+    end
+    
+    subgraph ResourceManagement[Resource Management]
+        RM1[Memory Management<br/>Cache Control]
+        RM2[CPU Scheduling<br/>Process Management]
+        RM3[File System<br/>Storage Management]
+        RM4[Network Resources<br/>Connection Pooling]
+    end
+    
+    subgraph DataOperations[Data Operations]
+        DO1[Database Operations<br/>If Applicable]
+        DO2[File I/O Operations<br/>CSV Reading]
+        DO3[Model Loading<br/>Memory Mapping]
+        DO4[Cache Operations<br/>Redis/Memcached]
+    end
+    
+    subgraph ExternalServicesOps[External Services Operations]
+        ESO1[Weather API Client<br/>Connection Pool]
+        ESO2[API Rate Limiting<br/>Request Throttling]
+        ESO3[Retry Logic<br/>Error Recovery]
+        ESO4[Circuit Breaker<br/>Failure Handling]
+    end
+    
+    subgraph SecurityOperations[Security Operations]
+        SO1[Authentication<br/>Session Validation]
+        SO2[Input Sanitization<br/>XSS Prevention]
+        SO3[File Upload Security<br/>Virus Scanning]
+        SO4[API Security<br/>Rate Limiting]
+    end
+    
+    subgraph BackupRecovery[Backup & Recovery]
+        BR1[Model Backup<br/>Version Control]
+        BR2[Data Backup<br/>CSV Files]
+        BR3[Configuration Backup<br/>Environment Variables]
+        BR4[Disaster Recovery<br/>Failover Procedures]
+    end
+    
+    %% Monitoring to Infrastructure
+    M1 --> DI1
+    M1 --> DI2
+    M2 --> AR1
+    M2 --> AR2
+    M3 --> AR1
+    M4 --> DI1
+    
+    %% Infrastructure to Runtime
+    DI3 --> DI4
+    DI4 --> DI1
+    DI1 --> AR1
+    AR1 --> AR2
+    AR1 --> AR3
+    AR1 --> AR4
+    
+    %% Runtime to Resource Management
+    AR2 --> RM1
+    AR2 --> RM2
+    AR3 --> RM3
+    AR2 --> RM4
+    
+    %% Runtime to Data Operations
+    AR2 --> DO1
+    AR2 --> DO2
+    AR2 --> DO3
+    AR2 --> DO4
+    
+    %% Runtime to External Services
+    AR2 --> ESO1
+    ESO1 --> ESO2
+    ESO2 --> ESO3
+    ESO3 --> ESO4
+    
+    %% Security Integration
+    DI4 --> SO1
+    AR2 --> SO2
+    AR2 --> SO3
+    ESO1 --> SO4
+    
+    %% Backup Operations
+    DO3 --> BR1
+    DO2 --> BR2
+    DI1 --> BR3
+    DI1 --> BR4
+    
+    %% Feedback Loops
+    M1 -.->|Metrics| AR1
+    M2 -.->|Alerts| AR1
+    RM1 -.->|Memory Pressure| AR1
+    ESO4 -.->|Circuit Open| AR1
+    
+    %% Styling
+    classDef monitorClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef infraClass fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef runtimeClass fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef resourceClass fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef dataClass fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef externalClass fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    classDef securityClass fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef backupClass fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
+    
+    class M1,M2,M3,M4 monitorClass
+    class DI1,DI2,DI3,DI4 infraClass
+    class AR1,AR2,AR3,AR4 runtimeClass
+    class RM1,RM2,RM3,RM4 resourceClass
+    class DO1,DO2,DO3,DO4 dataClass
+    class ESO1,ESO2,ESO3,ESO4 externalClass
+    class SO1,SO2,SO3,SO4 securityClass
+    class BR1,BR2,BR3,BR4 backupClass
+

@@ -1,0 +1,55 @@
+%% Project Implementation Timeline
+%% Hariyali (BHOOMI) - Development Phases
+
+gantt
+    title Project Implementation Timeline - Hariyali (BHOOMI)
+    dateFormat  YYYY-MM-DD
+    section Phase 1: Planning & Design
+    Requirements Gathering           :a1, 2024-01-01, 14d
+    System Architecture Design       :a2, after a1, 7d
+    Database Schema Design           :a3, after a1, 5d
+    UI/UX Design                     :a4, after a2, 10d
+    
+    section Phase 2: Data Preparation
+    Data Collection                  :b1, after a3, 21d
+    Data Cleaning & Preprocessing     :b2, after b1, 14d
+    Feature Engineering               :b3, after b2, 7d
+    Dataset Splitting                :b4, after b3, 3d
+    
+    section Phase 3: Model Development
+    Crop Recommendation Model        :c1, after b4, 14d
+    Disease Detection Model          :c2, after b4, 21d
+    Model Training & Validation      :c3, after c1, 7d
+    Model Evaluation & Tuning        :c4, after c2, 10d
+    
+    section Phase 4: Backend Development
+    Flask Application Setup           :d1, after a4, 7d
+    API Endpoints Development         :d2, after d1, 14d
+    Weather API Integration          :d3, after d2, 5d
+    Model Integration                 :d4, after c4, 7d
+    Error Handling & Logging          :d5, after d4, 5d
+    
+    section Phase 5: Frontend Development
+    HTML Templates Development        :e1, after a4, 14d
+    CSS Styling                       :e2, after e1, 10d
+    JavaScript Functionality         :e3, after e2, 7d
+    Responsive Design                :e4, after e3, 7d
+    
+    section Phase 6: Integration & Testing
+    Component Integration             :f1, after d5, 7d
+    Unit Testing                      :f2, after f1, 10d
+    Integration Testing               :f3, after f2, 7d
+    User Acceptance Testing           :f4, after f3, 7d
+    Bug Fixing                        :f5, after f4, 10d
+    
+    section Phase 7: Deployment
+    Production Environment Setup      :g1, after f5, 5d
+    Deployment Configuration          :g2, after g1, 3d
+    Performance Optimization         :g3, after g2, 5d
+    Security Hardening                :g4, after g3, 3d
+    Go-Live                           :milestone, after g4, 0d
+    
+    section Phase 8: Maintenance
+    Monitoring & Support              :h1, after g4, 30d
+    Continuous Improvement           :h2, after h1, 60d
+

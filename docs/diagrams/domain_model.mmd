@@ -1,0 +1,165 @@
+%% Domain Model for BHOOMI System
+%% Entity-Relationship Model
+
+erDiagram
+    USER ||--o{ CROP_RECOMMENDATION : requests
+    USER ||--o{ FERTILIZER_RECOMMENDATION : requests
+    USER ||--o{ DISEASE_DETECTION : requests
+    
+    CROP_RECOMMENDATION }o--|| CROP : recommends
+    CROP_RECOMMENDATION }o--|| SOIL_DATA : uses
+    CROP_RECOMMENDATION }o--|| WEATHER_DATA : uses
+    CROP_RECOMMENDATION }o--|| ML_MODEL : uses
+    
+    FERTILIZER_RECOMMENDATION }o--|| CROP : for
+    FERTILIZER_RECOMMENDATION }o--|| NUTRIENT_ANALYSIS : based_on
+    FERTILIZER_RECOMMENDATION }o--|| FERTILIZER_ADVICE : provides
+    
+    DISEASE_DETECTION }o--|| PLANT_IMAGE : analyzes
+    DISEASE_DETECTION }o--|| DISEASE : identifies
+    DISEASE_DETECTION }o--|| ML_MODEL : uses
+    
+    CROP ||--o{ FERTILIZER_REQUIREMENT : has
+    CROP ||--o{ DISEASE : susceptible_to
+    
+    SOIL_DATA ||--|| NUTRIENT_ANALYSIS : contains
+    WEATHER_DATA ||--|| LOCATION : from
+    
+    DISEASE ||--|| DISEASE_TREATMENT : has
+    
+    USER {
+        int user_id PK
+        string username
+        string email
+        string location
+        datetime created_at
+    }
+    
+    CROP_RECOMMENDATION {
+        int recommendation_id PK
+        int user_id FK
+        int crop_id FK
+        float nitrogen
+        float phosphorus
+        float potassium
+        float ph
+        float rainfall
+        float temperature
+        float humidity
+        datetime timestamp
+    }
+    
+    FERTILIZER_RECOMMENDATION {
+        int recommendation_id PK
+        int user_id FK
+        int crop_id FK
+        float current_n
+        float current_p
+        float current_k
+        string advice_type
+        text recommendation
+        datetime timestamp
+    }
+    
+    DISEASE_DETECTION {
+        int detection_id PK
+        int user_id FK
+        int disease_id FK
+        string image_path
+        string predicted_class
+        float confidence
+        datetime timestamp
+    }
+    
+    CROP {
+        int crop_id PK
+        string crop_name
+        string category
+        float optimal_n
+        float optimal_p
+        float optimal_k
+        float optimal_ph_min
+        float optimal_ph_max
+    }
+    
+    SOIL_DATA {
+        int soil_id PK
+        float nitrogen
+        float phosphorus
+        float potassium
+        float ph
+        float rainfall
+    }
+    
+    WEATHER_DATA {
+        int weather_id PK
+        string location
+        float temperature
+        float humidity
+        datetime timestamp
+    }
+    
+    NUTRIENT_ANALYSIS {
+        int analysis_id PK
+        int soil_id FK
+        float n_gap
+        float p_gap
+        float k_gap
+        string max_gap_type
+    }
+    
+    FERTILIZER_REQUIREMENT {
+        int requirement_id PK
+        int crop_id FK
+        float required_n
+        float required_p
+        float required_k
+    }
+    
+    FERTILIZER_ADVICE {
+        int advice_id PK
+        string advice_type
+        text advice_content
+    }
+    
+    PLANT_IMAGE {
+        int image_id PK
+        string file_path
+        string file_name
+        int file_size
+        datetime uploaded_at
+    }
+    
+    DISEASE {
+        int disease_id PK
+        string disease_name
+        string crop_affected
+        string symptoms
+        string causes
+    }
+    
+    DISEASE_TREATMENT {
+        int treatment_id PK
+        int disease_id FK
+        text prevention_methods
+        text cure_methods
+    }
+    
+    ML_MODEL {
+        int model_id PK
+        string model_name
+        string model_type
+        string model_path
+        float accuracy
+        datetime trained_at
+    }
+    
+    LOCATION {
+        int location_id PK
+        string city_name
+        string state
+        string country
+        float latitude
+        float longitude
+    }
+

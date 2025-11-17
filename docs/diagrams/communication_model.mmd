@@ -1,0 +1,109 @@
+%% Communication Model Suitable for BHOOMI
+%% System Communication Architecture
+
+flowchart TB
+    subgraph ClientSide[Client Side]
+        Browser[Web Browser]
+        Mobile[Mobile Browser]
+        UserInput[User Input Forms]
+        Display[Result Display]
+    end
+    
+    subgraph NetworkLayer[Network Layer]
+        HTTP[HTTP/HTTPS Protocol]
+        REST[RESTful API]
+        WebSocket[WebSocket<br/>Real-time Updates]
+    end
+    
+    subgraph ServerSide[Server Side]
+        LoadBalancer[Load Balancer<br/>Gunicorn]
+        FlaskApp[Flask Application]
+        Routes[Route Handlers]
+        Controllers[Controllers]
+    end
+    
+    subgraph ServiceLayer[Service Layer]
+        WeatherService[Weather Service<br/>OpenWeatherMap API]
+        ImageService[Image Processing Service]
+        ModelService[ML Model Service]
+        DataService[Data Access Service]
+    end
+    
+    subgraph DataLayer[Data Layer]
+        CSVData[CSV Data Files]
+        ModelFiles[Model Files]
+        Cache[In-Memory Cache]
+        FileStorage[File Storage]
+    end
+    
+    subgraph ExternalServices[External Services]
+        WeatherAPI[OpenWeatherMap API]
+        CDN[Content Delivery Network]
+    end
+    
+    %% Client to Network
+    Browser -->|HTTP Request| HTTP
+    Mobile -->|HTTP Request| HTTP
+    UserInput -->|Form Data| HTTP
+    HTTP -->|Response| Display
+    
+    %% Network to Server
+    HTTP -->|Request| REST
+    REST -->|Request| LoadBalancer
+    WebSocket -->|Bidirectional| LoadBalancer
+    LoadBalancer -->|Distribute| FlaskApp
+    
+    %% Server Internal
+    FlaskApp --> Routes
+    Routes --> Controllers
+    
+    %% Server to Services
+    Controllers -->|API Call| WeatherService
+    Controllers -->|Image Data| ImageService
+    Controllers -->|Prediction Request| ModelService
+    Controllers -->|Data Query| DataService
+    
+    %% Services to Data
+    DataService --> CSVData
+    DataService --> ModelFiles
+    DataService --> Cache
+    ImageService --> FileStorage
+    ModelService --> ModelFiles
+    ModelService --> Cache
+    
+    %% Services to External
+    WeatherService -->|API Request| WeatherAPI
+    WeatherAPI -->|JSON Response| WeatherService
+    
+    %% CDN for Static Assets
+    Browser -.->|Static Assets| CDN
+    Mobile -.->|Static Assets| CDN
+    CDN -.->|Cached Files| Browser
+    CDN -.->|Cached Files| Mobile
+    
+    %% Response Flow
+    ModelService -->|Prediction Result| Controllers
+    ImageService -->|Processed Image| Controllers
+    WeatherService -->|Weather Data| Controllers
+    DataService -->|Data Result| Controllers
+    Controllers -->|Response| Routes
+    Routes -->|Response| FlaskApp
+    FlaskApp -->|Response| LoadBalancer
+    LoadBalancer -->|Response| REST
+    REST -->|HTTP Response| HTTP
+    
+    %% Styling
+    classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef network fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef server fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef service fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef data fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef external fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    
+    class Browser,Mobile,UserInput,Display client
+    class HTTP,REST,WebSocket network
+    class LoadBalancer,FlaskApp,Routes,Controllers server
+    class WeatherService,ImageService,ModelService,DataService service
+    class CSVData,ModelFiles,Cache,FileStorage data
+    class WeatherAPI,CDN external
+

@@ -1,0 +1,78 @@
+%% System Flow Chart
+%% Hariyali (BHOOMI) - Complete System Process Flow
+
+flowchart TD
+    Start([System Start]) --> Init[Initialize Flask Application]
+    Init --> LoadModels[Load ML Models<br/>RandomForest.pkl<br/>ResNet9.pth]
+    LoadModels --> LoadData[Load Data Files<br/>fertilizer.csv]
+    LoadData --> Ready[System Ready]
+    
+    Ready --> WaitRequest{Wait for<br/>User Request}
+    
+    WaitRequest -->|GET /| HomePage[Display Home Page]
+    WaitRequest -->|GET /crop-recommend| CropForm[Display Crop Form]
+    WaitRequest -->|GET /fertilizer| FertForm[Display Fertilizer Form]
+    WaitRequest -->|GET /disease-predict| DiseaseForm[Display Disease Form]
+    WaitRequest -->|POST /crop-predict| ProcessCrop[Process Crop Request]
+    WaitRequest -->|POST /fertilizer-predict| ProcessFert[Process Fertilizer Request]
+    WaitRequest -->|POST /disease-predict| ProcessDisease[Process Disease Request]
+    
+    HomePage --> WaitRequest
+    CropForm --> WaitRequest
+    FertForm --> WaitRequest
+    DiseaseForm --> WaitRequest
+    
+    %% Crop Processing Flow
+    ProcessCrop --> ValidateCrop{Validate<br/>Input Data}
+    ValidateCrop -->|Invalid| ErrorCrop[Return Error Page]
+    ErrorCrop --> WaitRequest
+    ValidateCrop -->|Valid| GetWeather[Fetch Weather Data<br/>from OpenWeatherMap]
+    GetWeather --> CheckWeather{Weather<br/>Retrieved?}
+    CheckWeather -->|Yes| UseWeather[Use Retrieved Data]
+    CheckWeather -->|No| UseDefault[Use Default Values<br/>Temp: 25°C, Humidity: 60%]
+    UseWeather --> PredictCrop[Run RandomForest Model]
+    UseDefault --> PredictCrop
+    PredictCrop --> DisplayCrop[Display Crop Result]
+    DisplayCrop --> WaitRequest
+    
+    %% Fertilizer Processing Flow
+    ProcessFert --> ValidateFert{Validate<br/>Input Data}
+    ValidateFert -->|Invalid| ErrorFert[Return Error Page]
+    ErrorFert --> WaitRequest
+    ValidateFert -->|Valid| LoadFertData[Load Fertilizer CSV]
+    LoadFertData --> GetRequired[Get Required N-P-K<br/>for Selected Crop]
+    GetRequired --> CalcDiff[Calculate Differences<br/>Current vs Required]
+    CalcDiff --> FindMax[Find Maximum<br/>Gap Component]
+    FindMax --> GetAdvice[Get Fertilizer Advice<br/>from fertilizer_dic]
+    GetAdvice --> DisplayFert[Display Fertilizer Result]
+    DisplayFert --> WaitRequest
+    
+    %% Disease Processing Flow
+    ProcessDisease --> CheckFile{File<br/>Uploaded?}
+    CheckFile -->|No| ErrorDisease[Return Error Page]
+    ErrorDisease --> WaitRequest
+    CheckFile -->|Yes| ValidateFile{Valid<br/>Image File?}
+    ValidateFile -->|No| ErrorDisease
+    ValidateFile -->|Yes| ReadImage[Read Image Bytes]
+    ReadImage --> PreprocessImg[Preprocess Image<br/>Resize 256x256<br/>ToTensor]
+    PreprocessImg --> RunModel[Run ResNet9 Model]
+    RunModel --> GetClass[Get Disease Class<br/>from 38 Classes]
+    GetClass --> GetInfo[Get Disease Information<br/>from disease_dic]
+    GetInfo --> DisplayDisease[Display Disease Result]
+    DisplayDisease --> WaitRequest
+    
+    %% Styling
+    classDef startEnd fill:#4caf50,stroke:#2e7d32,stroke-width:3px,color:#fff
+    classDef process fill:#2196f3,stroke:#1565c0,stroke-width:2px,color:#fff
+    classDef decision fill:#ff9800,stroke:#e65100,stroke-width:2px,color:#fff
+    classDef model fill:#9c27b0,stroke:#6a1b9a,stroke-width:2px,color:#fff
+    classDef display fill:#00bcd4,stroke:#00838f,stroke-width:2px,color:#fff
+    classDef error fill:#f44336,stroke:#c62828,stroke-width:2px,color:#fff
+    
+    class Start,Ready,WaitRequest startEnd
+    class Init,LoadModels,LoadData,HomePage,CropForm,FertForm,DiseaseForm,GetWeather,UseWeather,UseDefault,LoadFertData,GetRequired,CalcDiff,FindMax,GetAdvice,ReadImage,PreprocessImg,GetClass,GetInfo process
+    class CheckWeather,ValidateCrop,ValidateFert,CheckFile,ValidateFile decision
+    class PredictCrop,RunModel model
+    class DisplayCrop,DisplayFert,DisplayDisease display
+    class ErrorCrop,ErrorFert,ErrorDisease error
+

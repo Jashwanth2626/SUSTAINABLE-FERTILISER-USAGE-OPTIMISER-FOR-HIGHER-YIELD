@@ -16,6 +16,7 @@ from PIL import Image
 from utils.model import ResNet9
 from flask import session, redirect, url_for
 from flask_babel import Babel, _
+import os
 # ==============================================================================================
 
 # -------------------------LOADING THE TRAINED MODELS -----------------------------------------------
@@ -132,11 +133,21 @@ def predict_image(img, model=disease_model):
 # ------------------------------------ FLASK APP -------------------------------------------------
 
 
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+DEFAULT_TRANSLATION_DIR = os.path.join(BASE_DIR, 'translations')
+
 app = Flask(__name__)
-app.secret_key = 'dev-secret-change-me'
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-change-me')
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'kn']
-app.config['BABEL_TRANSLATION_DIRECTORIES'] = '/Users/macbookpro/Desktop/capstone project /Hariyali/translations'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.environ.get(
+    'BABEL_TRANSLATION_DIR',
+    DEFAULT_TRANSLATION_DIR
+)
+WEATHER_API_KEY = os.environ.get(
+    'WEATHER_API_KEY',
+    getattr(config, 'weather_api_key', None)
+)
 
 # Locale selector for Flask-Babel v4
 

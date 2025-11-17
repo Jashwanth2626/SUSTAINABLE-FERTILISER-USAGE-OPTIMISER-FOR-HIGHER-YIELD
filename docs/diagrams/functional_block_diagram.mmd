@@ -1,0 +1,124 @@
+%% Functional Block Diagram
+%% Hariyali (BHOOMI) - System Components and Interactions
+
+flowchart TB
+    subgraph UserInterface[User Interface Layer]
+        UI1[Web Browser]
+        UI2[Mobile Browser]
+        UI3[HTML Forms]
+        UI4[Result Display]
+    end
+    
+    subgraph PresentationLayer[Presentation Layer]
+        P1[Flask Routes]
+        P2[Jinja2 Templates]
+        P3[Static Assets]
+        P4[Bootstrap CSS]
+    end
+    
+    subgraph ApplicationLayer[Application Logic Layer]
+        A1[Crop Recommendation<br/>Controller]
+        A2[Fertilizer Recommendation<br/>Controller]
+        A3[Disease Detection<br/>Controller]
+        A4[Weather Service<br/>Module]
+        A5[Image Processing<br/>Service]
+    end
+    
+    subgraph BusinessLogicLayer[Business Logic Layer]
+        B1[Nutrient Analysis<br/>Engine]
+        B2[Gap Calculation<br/>Algorithm]
+        B3[Decision Making<br/>Logic]
+        B4[Data Validation<br/>Rules]
+    end
+    
+    subgraph MLModelLayer[ML Model Layer]
+        M1[RandomForest<br/>Crop Model]
+        M2[ResNet9<br/>Disease Model]
+        M3[Model Inference<br/>Engine]
+        M4[Preprocessing<br/>Pipeline]
+    end
+    
+    subgraph DataAccessLayer[Data Access Layer]
+        D1[CSV Reader]
+        D2[Model Loader]
+        D3[File Handler]
+        D4[Config Manager]
+    end
+    
+    subgraph DataStorageLayer[Data Storage Layer]
+        DS1[Crop Dataset<br/>CSV]
+        DS2[Fertilizer Dataset<br/>CSV]
+        DS3[Model Files<br/>PKL/PTH]
+        DS4[Uploaded Images]
+    end
+    
+    subgraph ExternalServicesLayer[External Services Layer]
+        E1[OpenWeatherMap<br/>API]
+        E2[HTTP Client]
+    end
+    
+    %% User Interface to Presentation
+    UI1 --> P1
+    UI2 --> P1
+    UI3 --> P2
+    P2 --> P1
+    P3 --> P2
+    P4 --> P2
+    P1 --> UI4
+    
+    %% Presentation to Application
+    P1 --> A1
+    P1 --> A2
+    P1 --> A3
+    
+    %% Application to Business Logic
+    A1 --> B1
+    A1 --> B3
+    A2 --> B2
+    A2 --> B3
+    A3 --> B3
+    A4 --> B1
+    A5 --> B4
+    
+    %% Application to ML Models
+    A1 --> M1
+    A3 --> M2
+    M1 --> M3
+    M2 --> M3
+    M2 --> M4
+    
+    %% Application to External Services
+    A4 --> E2
+    E2 --> E1
+    
+    %% Business Logic to Data Access
+    B1 --> D1
+    B2 --> D1
+    B3 --> D2
+    B4 --> D3
+    
+    %% Data Access to Storage
+    D1 --> DS1
+    D1 --> DS2
+    D2 --> DS3
+    D3 --> DS4
+    
+    %% Styling
+    classDef uiClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef presClass fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef appClass fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef bizClass fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef mlClass fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef dataClass fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    classDef storageClass fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
+    classDef extClass fill:#fff8e1,stroke:#f9a825,stroke-width:2px
+    
+    class UI1,UI2,UI3,UI4 uiClass
+    class P1,P2,P3,P4 presClass
+    class A1,A2,A3,A4,A5 appClass
+    class B1,B2,B3,B4 bizClass
+    class M1,M2,M3,M4 mlClass
+    class D1,D2,D3,D4 dataClass
+    class DS1,DS2,DS3,DS4 storageClass
+    class E1,E2 extClass
+

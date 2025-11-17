@@ -1,0 +1,138 @@
+%% Functional View for BHOOMI
+%% System Functional Decomposition
+
+flowchart TB
+    subgraph UserManagement[User Management Functions]
+        UM1[User Authentication]
+        UM2[User Session Management]
+        UM3[User Preference Storage]
+    end
+    
+    subgraph CropRecommendationFunctions[Crop Recommendation Functions]
+        CR1[Input Validation<br/>N, P, K, pH, Rainfall]
+        CR2[Location Processing<br/>City Name]
+        CR3[Weather Data Fetching]
+        CR4[Feature Vector Construction]
+        CR5[Model Inference<br/>RandomForest]
+        CR6[Result Formatting]
+    end
+    
+    subgraph FertilizerFunctions[Fertilizer Recommendation Functions]
+        FR1[Input Validation<br/>Crop, N, P, K]
+        FR2[Crop Requirement Lookup]
+        FR3[Nutrient Gap Calculation]
+        FR4[Maximum Gap Identification]
+        FR5[Advice Selection Logic]
+        FR6[Recommendation Formatting]
+    end
+    
+    subgraph DiseaseDetectionFunctions[Disease Detection Functions]
+        DD1[File Upload Validation]
+        DD2[Image Format Validation]
+        DD3[Image Preprocessing<br/>Resize, Normalize]
+        DD4[Model Inference<br/>ResNet9]
+        DD5[Disease Class Mapping]
+        DD6[Treatment Information Retrieval]
+        DD7[Result Presentation]
+    end
+    
+    subgraph DataManagementFunctions[Data Management Functions]
+        DM1[CSV Data Loading]
+        DM2[Model File Loading]
+        DM3[Data Caching]
+        DM4[File Storage Management]
+        DM5[Configuration Management]
+    end
+    
+    subgraph ExternalIntegrationFunctions[External Integration Functions]
+        EI1[Weather API Client]
+        EI2[API Error Handling]
+        EI3[Data Transformation]
+        EI4[Response Caching]
+    end
+    
+    subgraph SystemFunctions[System Functions]
+        SF1[Request Routing]
+        SF2[Error Handling]
+        SF3[Logging]
+        SF4[Performance Monitoring]
+        SF5[Security Validation]
+    end
+    
+    %% User Management Connections
+    SF1 --> UM1
+    UM1 --> UM2
+    UM2 --> UM3
+    
+    %% Crop Recommendation Flow
+    SF1 --> CR1
+    CR1 --> CR2
+    CR2 --> EI1
+    EI1 --> CR3
+    CR3 --> CR4
+    CR4 --> DM2
+    DM2 --> CR5
+    CR5 --> CR6
+    CR6 --> SF1
+    
+    %% Fertilizer Recommendation Flow
+    SF1 --> FR1
+    FR1 --> FR2
+    FR2 --> DM1
+    DM1 --> FR3
+    FR3 --> FR4
+    FR4 --> FR5
+    FR5 --> FR6
+    FR6 --> SF1
+    
+    %% Disease Detection Flow
+    SF1 --> DD1
+    DD1 --> DD2
+    DD2 --> DD3
+    DD3 --> DM2
+    DM2 --> DD4
+    DD4 --> DD5
+    DD5 --> DM1
+    DM1 --> DD6
+    DD6 --> DD7
+    DD7 --> SF1
+    
+    %% Data Management Connections
+    CR5 --> DM3
+    FR2 --> DM3
+    DD4 --> DM3
+    DM1 --> DM4
+    DM2 --> DM4
+    SF1 --> DM5
+    
+    %% External Integration
+    EI1 --> EI2
+    EI2 --> EI3
+    EI3 --> EI4
+    EI4 --> CR3
+    
+    %% System Functions
+    CR1 --> SF2
+    FR1 --> SF2
+    DD1 --> SF2
+    SF2 --> SF3
+    SF1 --> SF4
+    SF1 --> SF5
+    
+    %% Styling
+    classDef userClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef cropClass fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef fertClass fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef diseaseClass fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef dataClass fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    classDef externalClass fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
+    classDef systemClass fill:#fff8e1,stroke:#f9a825,stroke-width:2px
+    
+    class UM1,UM2,UM3 userClass
+    class CR1,CR2,CR3,CR4,CR5,CR6 cropClass
+    class FR1,FR2,FR3,FR4,FR5,FR6 fertClass
+    class DD1,DD2,DD3,DD4,DD5,DD6,DD7 diseaseClass
+    class DM1,DM2,DM3,DM4,DM5 dataClass
+    class EI1,EI2,EI3,EI4 externalClass
+    class SF1,SF2,SF3,SF4,SF5 systemClass
+

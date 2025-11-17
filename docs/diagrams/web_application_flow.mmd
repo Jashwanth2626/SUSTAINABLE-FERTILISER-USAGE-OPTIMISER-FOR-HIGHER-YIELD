@@ -1,0 +1,59 @@
+%% Web Application High-Level Flow
+%% Hariyali (BHOOMI) - Complete User Journey
+
+flowchart TD
+    Start([User Accesses Application]) --> Home[Landing Page]
+    Home --> Choice{User Selects Feature}
+    
+    Choice -->|Crop Recommendation| CropForm[Crop Recommendation Form]
+    Choice -->|Fertilizer Suggestion| FertForm[Fertilizer Recommendation Form]
+    Choice -->|Disease Detection| DiseaseForm[Disease Detection Form]
+    
+    %% Crop Recommendation Flow
+    CropForm --> CropInput[Input: N, P, K, pH, Rainfall, City]
+    CropInput --> WeatherAPI[Fetch Weather Data<br/>OpenWeatherMap API]
+    WeatherAPI --> WeatherData{Temperature &<br/>Humidity Retrieved?}
+    WeatherData -->|Success| CropModel[RandomForest Model<br/>Crop Prediction]
+    WeatherData -->|Failure| DefaultWeather[Use Default Values<br/>Temp: 25°C, Humidity: 60%]
+    DefaultWeather --> CropModel
+    CropModel --> CropResult[Display Recommended Crop]
+    CropResult --> End1([End])
+    
+    %% Fertilizer Recommendation Flow
+    FertForm --> FertInput[Input: Crop Name, N, P, K]
+    FertInput --> FertCSV[Load Fertilizer CSV<br/>Get Recommended N-P-K]
+    FertCSV --> CalcGap[Calculate Nutrient Gaps<br/>N, P, K Differences]
+    CalcGap --> MaxGap{Identify Maximum<br/>Gap Component}
+    MaxGap -->|N High/Low| NRec[Get N Recommendation]
+    MaxGap -->|P High/Low| PRec[Get P Recommendation]
+    MaxGap -->|K High/Low| KRec[Get K Recommendation]
+    NRec --> FertResult[Display Fertilizer Advice]
+    PRec --> FertResult
+    KRec --> FertResult
+    FertResult --> End2([End])
+    
+    %% Disease Detection Flow
+    DiseaseForm --> ImageUpload[Upload Plant Leaf Image]
+    ImageUpload --> ValidateImage{Valid Image?}
+    ValidateImage -->|No| ErrorPage[Display Error<br/>Return to Form]
+    ErrorPage --> DiseaseForm
+    ValidateImage -->|Yes| Preprocess[Image Preprocessing<br/>Resize to 256x256<br/>Convert to Tensor]
+    Preprocess --> ResNet9[ResNet9 CNN Model<br/>Disease Classification]
+    ResNet9 --> DiseaseClass[Get Disease Class<br/>38 Possible Classes]
+    DiseaseClass --> DiseaseInfo[Lookup Disease Information<br/>from disease_dic]
+    DiseaseInfo --> DiseaseResult[Display Disease Details<br/>Causes & Prevention]
+    DiseaseResult --> End3([End])
+    
+    %% Styling
+    classDef startEnd fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#fff
+    classDef process fill:#2196f3,stroke:#1565c0,stroke-width:2px,color:#fff
+    classDef decision fill:#ff9800,stroke:#e65100,stroke-width:2px,color:#fff
+    classDef model fill:#9c27b0,stroke:#6a1b9a,stroke-width:2px,color:#fff
+    classDef result fill:#00bcd4,stroke:#00838f,stroke-width:2px,color:#fff
+    
+    class Start,End1,End2,End3 startEnd
+    class CropForm,FertForm,DiseaseForm,CropInput,FertInput,ImageUpload,Preprocess,CalcGap,WeatherAPI,DefaultWeather process
+    class Choice,WeatherData,ValidateImage,MaxGap decision
+    class CropModel,ResNet9,DiseaseClass model
+    class CropResult,FertResult,DiseaseResult,ErrorPage result
+

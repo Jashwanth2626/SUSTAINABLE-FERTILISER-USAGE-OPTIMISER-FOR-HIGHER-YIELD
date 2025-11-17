@@ -1,0 +1,65 @@
+%% The IoT World Forum Reference Model
+%% Applied to Hariyali (BHOOMI) System
+
+flowchart TB
+    subgraph Level7[Level 7: Collaboration & Processes]
+        L7[Business Process Management<br/>Crop Planning Workflows<br/>Fertilizer Scheduling<br/>Disease Monitoring Cycles]
+    end
+    
+    subgraph Level6[Level 6: Application]
+        L6[Web Application<br/>Crop Recommendation App<br/>Fertilizer Suggestion App<br/>Disease Detection App]
+    end
+    
+    subgraph Level5[Level 5: Data Abstraction]
+        L5[Data Processing Layer<br/>CSV Data Abstraction<br/>Model Data Abstraction<br/>Image Data Abstraction<br/>Weather Data Abstraction]
+    end
+    
+    subgraph Level4[Level 4: Data Accumulation]
+        L4[Data Storage & Aggregation<br/>Crop Dataset Storage<br/>Fertilizer Dataset Storage<br/>Model Files Storage<br/>User Upload Storage<br/>Weather Data Cache]
+    end
+    
+    subgraph Level3[Level 3: Edge Computing]
+        L3[Edge Processing<br/>Image Preprocessing<br/>Model Inference<br/>Data Validation<br/>Local Caching]
+    end
+    
+    subgraph Level2[Level 2: Connectivity]
+        L2[Communication Layer<br/>HTTP/HTTPS<br/>RESTful API<br/>WebSocket<br/>Weather API Integration]
+    end
+    
+    subgraph Level1[Level 1: Physical Devices & Controllers]
+        L1[Device Layer<br/>User Devices<br/>Web Browsers<br/>Mobile Devices<br/>Cameras for Image Capture<br/>Sensors for Soil Data]
+    end
+    
+    %% Connections between levels
+    L1 -->|Data Collection| L2
+    L2 -->|Data Transmission| L3
+    L3 -->|Processed Data| L4
+    L4 -->|Stored Data| L5
+    L5 -->|Abstracted Data| L6
+    L6 -->|Application Logic| L7
+    
+    %% Feedback loops
+    L7 -.->|Business Rules| L6
+    L6 -.->|Processing Rules| L5
+    L5 -.->|Storage Rules| L4
+    L4 -.->|Cache Rules| L3
+    L3 -.->|Processing Commands| L2
+    L2 -.->|Control Signals| L1
+    
+    %% Styling
+    classDef level1 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    classDef level2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
+    classDef level3 fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
+    classDef level4 fill:#fff3e0,stroke:#f57c00,stroke-width:3px
+    classDef level5 fill:#fce4ec,stroke:#c2185b,stroke-width:3px
+    classDef level6 fill:#e0f2f1,stroke:#00796b,stroke-width:3px
+    classDef level7 fill:#fff8e1,stroke:#f9a825,stroke-width:3px
+    
+    class L1 level1
+    class L2 level2
+    class L3 level3
+    class L4 level4
+    class L5 level5
+    class L6 level6
+    class L7 level7
+
