@@ -149,18 +149,21 @@ WEATHER_API_KEY = os.environ.get(
     getattr(config, 'weather_api_key', None)
 )
 
-# Locale selector for Flask-Babel v4
+# Locale selector for Flask-Babel
+babel = Babel(app)
 
+
+@babel.localeselector
 def get_locale():
-	# Prefer URL query, then session, then Accept-Language
-	lang = request.args.get('lang')
-	if lang and lang in app.config['BABEL_SUPPORTED_LOCALES']:
-		session['lang'] = lang
-		return lang
-	return session.get('lang', request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES']))
-
-# Initialize Babel with selector
-babel = Babel(app, locale_selector=get_locale)
+    # Prefer URL query, then session, then Accept-Language
+    lang = request.args.get('lang')
+    if lang and lang in app.config['BABEL_SUPPORTED_LOCALES']:
+        session['lang'] = lang
+        return lang
+    return session.get(
+        'lang',
+        request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    )
 
 @app.route('/set-language/<lang>')
 def set_language(lang):
