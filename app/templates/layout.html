@@ -12,87 +12,102 @@
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 
 	<style>
+		/* Mobile-first responsive base styles */
 		html {
-			font-size: 1rem;
+			font-size: 16px;
 		}
 
-		@media (min-width: 576px) {
-			html {
-				font-size: 1.25rem;
-			}
+		h1 {
+			font-size: 1.5rem;
 		}
 
+		h2 {
+			font-size: 1.3rem;
+		}
+
+		/* Tablet and up */
 		@media (min-width: 768px) {
 			html {
-				font-size: 1.5rem;
-			}
-		}
-
-		@media (min-width: 992px) {
-			html {
-				font-size: 1.75rem;
-			}
-		}
-
-		@media (min-width: 1200px) {
-			html {
-				font-size: 2rem;
-			}
-
-			html {
-				font-size: 1rem;
+				font-size: 18px;
 			}
 
 			h1 {
-				font-size: 1.2rem;
+				font-size: 1.8rem;
 			}
 
 			h2 {
-				font-size: 1.1rem;
+				font-size: 1.6rem;
+			}
+		}
+
+		/* Desktop */
+		@media (min-width: 992px) {
+			html {
+				font-size: 18px;
 			}
 
-			@media (min-width: 768px) {
-				html {
-					font-size: 1.1rem;
-				}
-
-				h1 {
-					font-size: 1.3rem;
-				}
-
-				h2 {
-					font-size: 1.2rem;
-				}
+			h1 {
+				font-size: 2rem;
 			}
 
-			@media (min-width: 991px) {
-				html {
-					font-size: 1.2rem;
-				}
+			h2 {
+				font-size: 1.8rem;
+			}
+		}
 
-				h1 {
-					font-size: 1.5rem;
-				}
-
-				h2 {
-					font-size: 1.4rem;
-				}
+		/* Large desktop */
+		@media (min-width: 1200px) {
+			html {
+				font-size: 18px;
 			}
 
-			@media (min-width: 1200px) {
-				html {
-					font-size: 1.2rem;
-				}
-
-				h1 {
-					font-size: 1.7rem;
-				}
-
-				h2 {
-					font-size: 1.6rem;
-				}
+			h1 {
+				font-size: 2.2rem;
 			}
 
+			h2 {
+				font-size: 2rem;
+			}
+		}
+
+		/* Mobile-specific improvements */
+		@media (max-width: 767px) {
+			.container {
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+			.navbar-brand {
+				font-size: 1.2rem !important;
+			}
+
+			.navbar-brand img {
+				width: 45px !important;
+				height: 45px !important;
+			}
+
+			.navbar-nav .nav-link {
+				padding: 0.5rem 1rem;
+				font-size: 0.95rem;
+			}
+
+			/* Ensure forms are touch-friendly */
+			.form-control {
+				font-size: 16px !important; /* Prevents zoom on iOS */
+				padding: 12px;
+			}
+
+			.btn {
+				min-height: 44px; /* Minimum touch target size */
+				font-size: 16px;
+				padding: 12px 24px;
+			}
+
+			/* Make images responsive */
+			img {
+				max-width: 100%;
+				height: auto;
+			}
 		}
 	</style>
 	<script>
