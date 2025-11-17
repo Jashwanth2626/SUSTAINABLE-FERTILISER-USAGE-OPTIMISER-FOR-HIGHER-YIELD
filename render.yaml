@@ -2,7 +2,7 @@ services:
   - type: web
     name: hariyali-app
     runtime: docker
-    repo: https://example.com/your-repo.git
+    repo: https://github.com/Jashwanth2626/SUSTAINABLE-FERTILISER-USAGE-OPTIMISER-FOR-HIGHER-YIELD.git
     plan: starter
     envVars:
       - key: FLASK_SECRET_KEY
